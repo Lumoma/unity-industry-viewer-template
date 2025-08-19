@@ -19,11 +19,14 @@ jobs:
         with:
           fetch-depth: 0
           lfs: true
-      - uses: actions/cache@v3
+      - name: Cache Unity Library folder
+        id: cache-library
+        uses: actions/cache@v4 # Du kannst auf die neueste Version aktualisieren
         with:
           path: Library
-          key: Library-${{ matrix.targetPlatform }}
-          restore-keys: Library-
+          key: ${{ runner.os }}-unity-library-${{ hashFiles('Assets/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            ${{ runner.os }}-unity-library-
       - if: matrix.targetPlatform == 'Android'
         uses: jlumbroso/free-disk-space@v1.3.1
       - uses: game-ci/unity-builder@v4
