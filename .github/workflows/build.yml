@@ -21,10 +21,10 @@ jobs:
           lfs: true
       - name: Cache Unity Library folder
         id: cache-library
-        uses: actions/cache@v4 # Du kannst auf die neueste Version aktualisieren
+        uses: actions/cache@v4
         with:
-          path: Library
-          key: ${{ runner.os }}-unity-library-${{ hashFiles('Assets/**', 'ProjectSettings/**') }}
+          path: IndustryViewerTemplate/Library
+          key: ${{ runner.os }}-unity-library-${{ hashFiles('IndustryViewerTemplate/Assets/**', 'IndustryViewerTemplate/ProjectSettings/**') }}
           restore-keys: |
             ${{ runner.os }}-unity-library-
       - if: matrix.targetPlatform == 'Android'
@@ -36,6 +36,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
+          projectPath: IndustryViewerTemplate # Wichtig: Füge diesen Parameter hinzu!
       - uses: actions/upload-artifact@v4
         with:
           name: Build-${{ matrix.targetPlatform }}
